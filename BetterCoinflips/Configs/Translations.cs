@@ -55,6 +55,7 @@ namespace BetterCoinflips.Configs
         public string PrimedVaseMessage { get; set; } = "Your grandma paid you a visit!";
         public string ShitPantsMessage { get; set; } = "You just shit your pants.";
         public string FakeScpKillMessage { get; set; } = "Did you just kill an SCP?!";
+        public string FakeScpCassieMessage { get; set; } = "successfully terminated by Automatic Security System.";
         public string TurnIntoScpMessage { get; set; } = "Get SCP-fied LOL!";
         public string InventoryResetMessage { get; set; } = "You lost your stuff.";
         public string ClassSwapMessage { get; set; } = "That's what I call an UNO reverse card!";
@@ -67,6 +68,8 @@ namespace BetterCoinflips.Configs
         public string SpectSwapNoSpectsMessage { get; set; } = "You got lucky cause there are no spectators to take your place.";
         public string TeslaTpMessage { get; set; } = "So you're a fan of electricity?";
         public string TeslaTpAfterWarheadMessage { get; set; } = "You were teleported into a radioactive zone.";
+        public string SizeChangeWideMessage { get; set; } = "You got McDonalded.";
+        public string SizeChangeHugeMessage { get; set; } = "You went giant.";
         
         [Description("This message will be broadcast to both players.")]
         public string InventorySwapMessage { get; set; } = "Your inventory was swapped with a random player.";

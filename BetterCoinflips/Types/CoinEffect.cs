@@ -41,7 +41,8 @@ namespace BetterCoinflips.Types
             { "0 9 6", "SCP-096"},
             { "0 7 9", "SCP-079"},
             { "0 4 9", "SCP-049"},
-            { "1 0 6", "SCP-106"}
+            { "1 0 6", "SCP-106"},
+            { "3 1 1 4", "SCP-3114"}
         };
         
         private static bool flag1 = Config.RedCardChance > Rd.Next(1, 101);
@@ -145,6 +146,8 @@ namespace BetterCoinflips.Types
             new CoinFlipEffect(Translations.SizeChangeMessage, player =>
             {
                 player.Scale = new Vector3(1.13f, 0.5f, 1.13f);
+                player.DisableEffect(EffectType.Exhausted);
+                player.MaxHealth = 75.0f;
             }),
 
             // 14: Spawns a random item for the player.
@@ -271,7 +274,7 @@ namespace BetterCoinflips.Types
                 var scpName = _scpNames.ToList().RandomItem();
                 
                 Cassie.MessageTranslated($"scp {scpName.Key} successfully terminated by automatic security system",
-                    $"{scpName.Value} successfully terminated by Automatic Security System.");
+                    $"{scpName.Value} {Translations.FakeScpCassieMessage}");
             }),
 
             // 12: Forceclass the player to a random scp from the list Keywords: scp fc forceclass
@@ -492,6 +495,22 @@ namespace BetterCoinflips.Types
             {
                 player.Handcuff();
                 player.DropItems();
+            }),
+           
+            // 23: Changes the player's size to Wide
+            new CoinFlipEffect(Translations.SizeChangeWideMessage, player =>
+            {
+                player.Scale = new Vector3(1.2f, 1.0f, 1.2f);
+                player.EnableEffect(EffectType.Exhausted);
+                player.MaxHealth = 100.0f;
+            }),
+
+            // 24: Changes the player's size to Huge
+            new CoinFlipEffect(Translations.SizeChangeHugeMessage, player =>
+            {
+                player.Scale = new Vector3(1.05f, 1.15f, 1.05f);
+                player.DisableEffect(EffectType.Exhausted);
+                player.MaxHealth = 125.0f;
             }),
         };
     }

@@ -46,6 +46,8 @@ SCP:SL plugin that adds a Risk-Reward mechanic to the in-game coin. Whenever you
  21. Their inventory will be swapped with another player's inventory.
  22. They will be teleported to a random room.
  23. They will be handcuffed and lose their items.
+ 24. They can become WIDE.
+ 25. They can become HUGE.
 
 - The plugin will prevent the spawns of a specified amount of coins around the map.
 - The plugin will replace a specified amount of the chosen item (by default SCP-500) with a coin in the SCP pedestals.
@@ -165,4 +167,6 @@ better_cf:
   inventory_swap_chance: 20
   handcuff_chance: 10
   random_teleport_chance: 15
+  size_change_wide_chance: 10
+  size_change_huge_chance: 20
 ```

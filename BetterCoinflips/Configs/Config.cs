@@ -253,5 +253,7 @@ namespace BetterCoinflips.Configs
         public int InventorySwapChance { get; set; } = 20;
         public int HandcuffChance { get; set; } = 10;
         public int RandomTeleportChance { get; set; } = 15;
+        public int SizeChangeWideChance { get; set; } = 10;
+        public int SizeChangeHugeChance { get; set; } = 20;
     }
 }
