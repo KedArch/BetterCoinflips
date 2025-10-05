@@ -8,7 +8,7 @@ namespace BetterCoinflips.Configs
     {
         [Description("This is added to the effect message if the coin breaks.")]
         public string CoinBreaksMessage { get; set; } = "\nAlso your coin was used too much and it broke down.";
-        
+
         [Description("The broadcast message when a coin is registered with no uses.")]
         public string CoinNoUsesMessage { get; set; } = "Your coin had no uses to begin with!";
 
@@ -17,7 +17,7 @@ namespace BetterCoinflips.Configs
             "Your coin landed on tails.",
             "Your coin landed on heads."
         };
-        
+
         [Description("Here you can set the message for each of these good coin effects.")]
         public string TossOnCooldownMessage { get; set; } = "You can't throw the coin yet.";
         public string RedCardMessage { get; set; } = "You acquired a Facility Manager keycard!";
@@ -37,8 +37,6 @@ namespace BetterCoinflips.Configs
         public string SizeChangeMessage { get; set; } = "You got gnomed.";
         public string RandomItemMessage { get; set; } = "You got a random item!";
 
-
-        
         [Description("Here you can set the message for each of these bad coin effects.")]
         public string HpReductionMessage { get; set; } = "Your hp got reduced by 30%.";
         public string TpToClassDCellsMessage { get; set; } = "You got teleported to Class D cells.";
@@ -71,7 +69,18 @@ namespace BetterCoinflips.Configs
         public string SizeChangeWideMessage { get; set; } = "You got McDonalded.";
         public string SizeChangeHugeMessage { get; set; } = "You went giant.";
         public string BouncyBallsMessage { get; set; } = "Bouncy Balls!";
-        
+        public string NpcMessage { get; set; } = "A visitor?";
+        [Description("String to add before NPC name.")]
+        public List<string> NpcPreTitle { get; set; } = new()
+        {
+          ""
+        };
+        [Description("String to add after NPC name.")]
+        public List<string> NpcPostTitle { get; set; } = new()
+        {
+          ""
+        };
+
         [Description("This message will be broadcast to both players.")]
         public string InventorySwapMessage { get; set; } = "Your inventory was swapped with a random player.";
         public string InventorySwapOnePlayerMessage { get; set; } = "You can't swap with anyone so you're losing health instead.";

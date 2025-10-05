@@ -1,7 +1,9 @@
 ﻿using Exiled.API.Features;
 using System;
+using System.Collections.Generic;
 using BetterCoinflips.Configs;
 using Map = Exiled.Events.Handlers.Map;
+using PlayerAPI = Exiled.API.Features.Player;
 using Player = Exiled.Events.Handlers.Player;
 
 namespace BetterCoinflips
@@ -15,12 +17,17 @@ namespace BetterCoinflips
 
         public static Plugin Instance;
         private EventHandlers _eventHandler;
-        
+
+        public BetterCoinflips.Resources.Npcs Npcs;
+        public Dictionary<PlayerAPI, List<Npc>> PlayerNpcs { get; private set; }
+
         public override void OnEnabled()
         {
             Instance = this;
             RegisterEvents();
             base.OnEnabled();
+            PlayerNpcs = new Dictionary<PlayerAPI, List<Npc>>();
+            Npcs = new BetterCoinflips.Resources.Npcs();
         }
 
         public override void OnDisabled()
@@ -28,6 +35,7 @@ namespace BetterCoinflips
             UnRegisterEvents();
             Instance = null;
             base.OnDisabled();
+            Npcs.OnDisable();
         }
 
         private void RegisterEvents()

@@ -521,6 +521,12 @@ namespace BetterCoinflips.Types
                 Scp018Projectile scp018 = Projectile.CreateAndSpawn(ProjectileType.Scp018, player.Position, player.Transform.rotation).As<Scp018Projectile>();
                 scp018.Rigidbody.linearVelocity = player.Velocity + UnityEngine.Random.onUnitSphere * 5;
             }),
+
+            // 26: Spawns NPC on player
+            new CoinFlipEffect(Translations.NpcMessage, player =>
+            {
+                Plugin.Instance.Npcs.NpcsEffect(player);
+            }),
         };
     }
 }
