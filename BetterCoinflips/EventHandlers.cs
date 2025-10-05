@@ -68,6 +68,7 @@ namespace BetterCoinflips
             { 22, Config.HandcuffChance },
             { 23, Config.SizeChangeWideChance },
             { 24, Config.SizeChangeHugeChance },
+            { 25, Config.BouncyBallsChance },
         };
 
         private readonly Dictionary<string, DateTime> _cooldownDict = new();

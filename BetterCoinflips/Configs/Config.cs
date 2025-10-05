@@ -255,5 +255,6 @@ namespace BetterCoinflips.Configs
         public int RandomTeleportChance { get; set; } = 15;
         public int SizeChangeWideChance { get; set; } = 10;
         public int SizeChangeHugeChance { get; set; } = 20;
+        public int BouncyBallsChance { get; set; } = 20;
     }
 }

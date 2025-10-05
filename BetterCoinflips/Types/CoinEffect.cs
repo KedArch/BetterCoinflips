@@ -9,6 +9,7 @@ using Exiled.API.Features.Doors;
 using Exiled.API.Features.Items;
 using Exiled.API.Features.Pickups;
 using Exiled.API.Features.Waves;
+using Exiled.API.Features.Pickups.Projectiles;
 using InventorySystem.Items.Firearms.Attachments;
 using MEC;
 using PlayerRoles;
@@ -511,6 +512,14 @@ namespace BetterCoinflips.Types
                 player.Scale = new Vector3(1.05f, 1.15f, 1.05f);
                 player.DisableEffect(EffectType.Exhausted);
                 player.MaxHealth = 125.0f;
+            }),
+
+            // 25: Spawns bouncy ball on player
+            new CoinFlipEffect(Translations.BouncyBallsMessage, player =>
+            {
+                Cassie.Message("pitch_1.5 xmas_bouncyballs");
+                Scp018Projectile scp018 = Projectile.CreateAndSpawn(ProjectileType.Scp018, player.Position, player.Transform.rotation).As<Scp018Projectile>();
+                scp018.Rigidbody.linearVelocity = player.Velocity + UnityEngine.Random.onUnitSphere * 5;
             }),
         };
     }

@@ -70,6 +70,7 @@ namespace BetterCoinflips.Configs
         public string TeslaTpAfterWarheadMessage { get; set; } = "You were teleported into a radioactive zone.";
         public string SizeChangeWideMessage { get; set; } = "You got McDonalded.";
         public string SizeChangeHugeMessage { get; set; } = "You went giant.";
+        public string BouncyBallsMessage { get; set; } = "Bouncy Balls!";
         
         [Description("This message will be broadcast to both players.")]
         public string InventorySwapMessage { get; set; } = "Your inventory was swapped with a random player.";
