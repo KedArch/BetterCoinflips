@@ -30,6 +30,7 @@ namespace BetterCoinflips.Resources
                 npc.ClearInventory(true);
                 npc.AddItem(coin);
                 npc.CurrentItem = coin;
+                npc.Emotion = PlayerRoles.FirstPersonControl.Thirdperson.Subcontrollers.EmotionPresetType.Chad;
                 npc.Follow(player);
             });
             return;
