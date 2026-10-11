@@ -37,7 +37,8 @@ namespace BetterCoinflips
             { 11, Config.EmptyHidChance },
             { 12, Config.ForceRespawnChance },
             { 13, Config.SizeChangeChance },
-            { 14, Config.RandomItemChance }
+            { 14, Config.RandomItemChance },
+            { 15, Config.SizeChangeHugeChance },
         };
 
         //Dict of all bad coin effect chances with an index
@@ -67,9 +68,12 @@ namespace BetterCoinflips
             { 21, Config.RandomTeleportChance },
             { 22, Config.HandcuffChance },
             { 23, Config.SizeChangeWideChance },
-            { 24, Config.SizeChangeHugeChance },
-            { 25, Config.BouncyBallsChance },
-            { 26, Config.NpcChance },
+            { 24, Config.BouncyBallsChance },
+            { 25, Config.NpcChance },
+            { 26, Config.WholeRoomWideChance },
+            { 27, Config.WholeRoomZombieChance },
+            { 28, Config.WholeRoomMtfChance },
+            { 29, Config.WholeRoomChaosChance },
         };
 
         private readonly Dictionary<string, DateTime> _cooldownDict = new();

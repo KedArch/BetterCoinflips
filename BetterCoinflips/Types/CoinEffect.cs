@@ -8,13 +8,11 @@ using Exiled.API.Features;
 using Exiled.API.Features.Doors;
 using Exiled.API.Features.Items;
 using Exiled.API.Features.Pickups;
-using Exiled.API.Features.Waves;
 using Exiled.API.Features.Pickups.Projectiles;
 using InventorySystem.Items.Firearms.Attachments;
 using MEC;
 using PlayerRoles;
 using Respawning;
-using Respawning.Waves;
 using UnityEngine;
 using Player = Exiled.API.Features.Player;
 
@@ -25,7 +23,7 @@ namespace BetterCoinflips.Types
         private static Config Config => Plugin.Instance.Config;
         private static Configs.Translations Translations => Plugin.Instance.Translation;
         private static readonly System.Random Rd = new();
-        
+
         public Action<Player> Execute { get; set; }
         public string Message { get; set; }
 
@@ -45,7 +43,7 @@ namespace BetterCoinflips.Types
             { "1 0 6", "SCP-106"},
             { "3 1 1 4", "SCP-3114"}
         };
-        
+
         private static bool flag1 = Config.RedCardChance > Rd.Next(1, 101);
 
         // GoodEffects list
@@ -148,7 +146,7 @@ namespace BetterCoinflips.Types
             {
                 player.Scale = new Vector3(1.13f, 0.5f, 1.13f);
                 player.DisableEffect(EffectType.Exhausted);
-                player.MaxHealth = 75.0f;
+                player.MaxHealth *= 0.75f;
             }),
 
             // 14: Spawns a random item for the player.
@@ -161,6 +159,14 @@ namespace BetterCoinflips.Types
                     firearm.MagazineAmmo = firearm.MaxMagazineAmmo;
 
                 item.CreatePickup(player.Position);
+            }),
+
+            // 15: Changes the player's size to Huge
+            new CoinFlipEffect(Translations.SizeChangeHugeMessage, player =>
+            {
+                player.Scale = new Vector3(1.05f, 1.10f, 1.05f);
+                player.DisableEffect(EffectType.Exhausted);
+                player.MaxHealth *= 1.25f;
             }),
         };
 
@@ -193,13 +199,13 @@ namespace BetterCoinflips.Types
             new CoinFlipEffect(Translations.RandomBadEffectMessage, player =>
             {
                 var effect = Config.BadEffects.ToList().RandomItem();
-                
+
                 //prevents players from staying in PD infinitely
                 if (effect == EffectType.PocketCorroding)
                     player.EnableEffect(EffectType.PocketCorroding);
                 else
                     player.EnableEffect(effect, 5, true);
-                
+
                 Log.Debug($"Chosen random effect: {effect}");
             }),
 
@@ -273,8 +279,8 @@ namespace BetterCoinflips.Types
             new CoinFlipEffect(Translations.FakeScpKillMessage, player =>
             {
                 var scpName = _scpNames.ToList().RandomItem();
-                
-                Cassie.MessageTranslated($"scp {scpName.Key} successfully terminated by automatic security system",
+
+                Exiled.API.Features.Cassie.MessageTranslated($"scp {scpName.Key} successfully terminated by automatic security system",
                     $"{scpName.Value} {Translations.FakeScpCassieMessage}");
             }),
 
@@ -283,15 +289,15 @@ namespace BetterCoinflips.Types
             {
                 player.DropItems();
                 player.Scale = new Vector3(1, 1, 1);
-                
+
                 var randomScp = Config.ValidScps.ToList().RandomItem();
                 player.Role.Set(randomScp, RoleSpawnFlags.AssignInventory);
-                
+
                 //prevents the player from staying in PD forever
                 if (player.CurrentRoom.Type == RoomType.Pocket)
                     player.EnableEffect(EffectType.PocketCorroding);
             }),
-            
+
             // 13: Resets player's inventory
             new CoinFlipEffect(Translations.InventoryResetMessage, player =>
             {
@@ -357,7 +363,7 @@ namespace BetterCoinflips.Types
             {
                 var playerList = Player.List.Where(x => x.IsAlive && !Config.PlayerSwapIgnoredRoles.Contains(x.Role.Type)).ToList();
                 playerList.Remove(player);
-                
+
                 if (playerList.IsEmpty())
                 {
                     return;
@@ -365,10 +371,10 @@ namespace BetterCoinflips.Types
 
                 var targetPlayer = playerList.RandomItem();
                 var pos = targetPlayer.Position;
-                
+
                 targetPlayer.Teleport(player.Position);
                 player.Teleport(pos);
-                
+
                 EventHandlers.SendBroadcast(targetPlayer, Translations.PlayerSwapMessage);
             }),
 
@@ -383,33 +389,33 @@ namespace BetterCoinflips.Types
             new CoinFlipEffect(Player.List.Where(x => x.Role.Type == RoleTypeId.Spectator).IsEmpty() ? Translations.SpectSwapNoSpectsMessage : Translations.SpectSwapPlayerMessage, player =>
             {
                 var spectList = Player.List.Where(x => x.Role.Type == RoleTypeId.Spectator).ToList();
-                
+
                 if (spectList.IsEmpty())
                 {
                     return;
                 }
-                
+
                 var spect = spectList.RandomItem();
-                
+
                 spect.Role.Set(player.Role.Type, RoleSpawnFlags.None);
                 spect.Teleport(player);
                 spect.Health = player.Health;
-                
+
                 List<ItemType> playerItems = player.Items.Select(item => item.Type).ToList();
 
                 foreach (var item in playerItems)
                 {
                     spect.AddItem(item);
                 }
-                
-                
+
+
                 //give spect the players ammo, has to be done before ClearInventory() or else ammo will fall on the floor
                 for (int i = 0; i < player.Ammo.Count; i++)
                 {
                     spect.AddAmmo(player.Ammo.ElementAt(i).Key.GetAmmoType(), player.Ammo.ElementAt(i).Value);
                     player.SetAmmo(player.Ammo.ElementAt(i).Key.GetAmmoType(), 0);
                 }
-                
+
                 player.ClearInventory();
                 player.Role.Set(RoleTypeId.Spectator);
 
@@ -433,13 +439,13 @@ namespace BetterCoinflips.Types
             new CoinFlipEffect(Player.List.Where(x => !Config.InventorySwapIgnoredRoles.Contains(x.Role.Type)).Count(x => x.IsAlive) <= 1 ? Translations.InventorySwapOnePlayerMessage : Translations.InventorySwapMessage, player =>
             {
                 List<Player> playerList = Player.List.Where(x => x != player && !Config.InventorySwapIgnoredRoles.Contains(x.Role.Type)).ToList();
-                
+
                 if (playerList.Count(x => x.IsAlive) <= 1)
                 {
                     player.Hurt(50);
                     return;
                 }
-             
+
                 var target = playerList.Where(x => x != player).ToList().RandomItem();
 
                 // Saving items
@@ -487,7 +493,7 @@ namespace BetterCoinflips.Types
                     candy.CreatePickup(player.Position);
                     return;
                 }
-                
+
                 player.Teleport(Room.Get(Config.RoomsToTeleport.GetRandomValue()));
             }),
 
@@ -497,36 +503,80 @@ namespace BetterCoinflips.Types
                 player.Handcuff();
                 player.DropItems();
             }),
-           
+
             // 23: Changes the player's size to Wide
             new CoinFlipEffect(Translations.SizeChangeWideMessage, player =>
             {
                 player.Scale = new Vector3(1.2f, 1.0f, 1.2f);
                 player.EnableEffect(EffectType.Exhausted);
-                player.MaxHealth = 100.0f;
             }),
 
-            // 24: Changes the player's size to Huge
-            new CoinFlipEffect(Translations.SizeChangeHugeMessage, player =>
-            {
-                player.Scale = new Vector3(1.05f, 1.15f, 1.05f);
-                player.DisableEffect(EffectType.Exhausted);
-                player.MaxHealth = 125.0f;
-            }),
-
-            // 25: Spawns bouncy ball on player
+            // 24: Spawns bouncy ball on player
             new CoinFlipEffect(Translations.BouncyBallsMessage, player =>
             {
-                Cassie.Message("pitch_1.5 xmas_bouncyballs");
+                Exiled.API.Features.Cassie.Message("pitch_1.5 xmas_bouncyballs");
                 Scp018Projectile scp018 = Projectile.CreateAndSpawn(ProjectileType.Scp018, player.Position, player.Transform.rotation).As<Scp018Projectile>();
                 scp018.Rigidbody.linearVelocity = player.Velocity + UnityEngine.Random.onUnitSphere * 5;
             }),
 
-            // 26: Spawns NPC on player
+            // 25: Spawns NPC on player
             new CoinFlipEffect(Translations.NpcMessage, player =>
             {
                 Plugin.Instance.Npcs.NpcsEffect(player);
             }),
+
+            // 26: Whole room went Wide
+            new CoinFlipEffect(Translations.WholeRoomWideMessage, player =>
+            {
+                RoomEffectHelper(player, affectedPlayer =>
+                    {
+                        affectedPlayer.Scale = new Vector3(1.2f, 1.0f, 1.2f);
+                        affectedPlayer.EnableEffect(EffectType.Exhausted);
+                        affectedPlayer.Broadcast(new Exiled.API.Features.Broadcast(Translations.WholeRoomWideMessage, Config.BroadcastTime), true);
+                    });
+            }),
+
+            // 27: Whole room changed to Zombies
+            new CoinFlipEffect(Translations.WholeRoomZombieMessage, player =>
+            {
+                RoomEffectHelper(player, affectedPlayer =>
+                    {
+                        affectedPlayer.DropItems();
+                        affectedPlayer.Role.Set(RoleTypeId.Scp0492, RoleSpawnFlags.None);
+                        affectedPlayer.Broadcast(new Exiled.API.Features.Broadcast(Translations.WholeRoomZombieMessage, Config.BroadcastTime), true);
+                    });
+            }),
+
+            // 28: Whole room changed to MTF
+            new CoinFlipEffect(Translations.WholeRoomMtfMessage, player =>
+            {
+                RoomEffectHelper(player, affectedPlayer =>
+                    {
+                        affectedPlayer.DropItems();
+                        affectedPlayer.Role.Set(RoleTypeId.NtfPrivate, RoleSpawnFlags.AssignInventory);
+                        affectedPlayer.Broadcast(new Exiled.API.Features.Broadcast(Translations.WholeRoomMtfMessage, Config.BroadcastTime), true);
+                    });
+            }),
+
+            // 29: Whole room changed to Chaos
+            new CoinFlipEffect(Translations.WholeRoomChaosMessage, player =>
+            {
+                RoomEffectHelper(player, affectedPlayer =>
+                    {
+                        affectedPlayer.DropItems();
+                        affectedPlayer.Role.Set(RoleTypeId.ChaosRifleman, RoleSpawnFlags.AssignInventory);
+                        affectedPlayer.Broadcast(new Exiled.API.Features.Broadcast(Translations.WholeRoomChaosMessage, Config.BroadcastTime), true);
+                    });
+            }),
         };
+
+        public static void RoomEffectHelper(Player sourcePlayer, Action<Player> effect)
+        {
+            Room room = sourcePlayer.CurrentRoom;
+            foreach(Player roomPlayer in room.Players)
+            {
+              effect(roomPlayer);
+            };
+        }
     }
 }

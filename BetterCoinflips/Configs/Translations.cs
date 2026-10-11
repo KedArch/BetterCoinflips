@@ -36,6 +36,7 @@ namespace BetterCoinflips.Configs
         public string ForceRespawnMessage { get; set; } = "Someone respawned... probably.";
         public string SizeChangeMessage { get; set; } = "You got gnomed.";
         public string RandomItemMessage { get; set; } = "You got a random item!";
+        public string SizeChangeHugeMessage { get; set; } = "You went giant.";
 
         [Description("Here you can set the message for each of these bad coin effects.")]
         public string HpReductionMessage { get; set; } = "Your hp got reduced by 30%.";
@@ -67,7 +68,6 @@ namespace BetterCoinflips.Configs
         public string TeslaTpMessage { get; set; } = "So you're a fan of electricity?";
         public string TeslaTpAfterWarheadMessage { get; set; } = "You were teleported into a radioactive zone.";
         public string SizeChangeWideMessage { get; set; } = "You got McDonalded.";
-        public string SizeChangeHugeMessage { get; set; } = "You went giant.";
         public string BouncyBallsMessage { get; set; } = "Bouncy Balls!";
         public string NpcMessage { get; set; } = "A visitor?";
         [Description("String to add before NPC name.")]
@@ -87,5 +87,11 @@ namespace BetterCoinflips.Configs
         public string RandomTeleportMessage { get; set; } = "You were randomly teleported.";
         public string RandomTeleportWarheadDetonatedMessage { get; set; } = "Warhead is detonated so you only got a candy.";
         public string HandcuffMessage { get; set; } = "You were arrested for uhh commiting war crimes... or something.";
+
+        [Description("This message will be broadcast to all affected players.")]
+        public string WholeRoomWideMessage { get; set; } = "Everyone in room went to McDonald.";
+        public string WholeRoomZombieMessage { get; set; } = "You have roamed facility so long you forgot you are here...";
+        public string WholeRoomMtfMessage { get; set; } = "It seems you were sent to manage containment breach...";
+        public string WholeRoomChaosMessage { get; set; } = "So it seems Insurgency sent you here for something...";
     }
 }
