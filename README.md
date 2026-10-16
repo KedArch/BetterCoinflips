@@ -1,33 +1,34 @@
 # BetterCoinflips
-<a href="https://github.com/Mikihero/BetterCoinflips/releases"><img src="https://img.shields.io/github/downloads/Mikihero/BetterCoinflips/total?label=Downloads" alt="Downloads"></a>  
-  
+<a href="https://github.com/Mikihero/BetterCoinflips/releases"><img src="https://img.shields.io/github/downloads/Mikihero/BetterCoinflips/total?label=Downloads" alt="Downloads"></a>
+
 SCP:SL plugin that adds a Risk-Reward mechanic to the in-game coin. Whenever you flip a coin a 'random' effect will happen depending on the coinflips outcome.
 
 # Features:
 
-- Whenever a player flips a coin and it lands on heads one of the following will happen:  
- 1. They will receive a Containment Engineer/Facility Manager keycard.  
+- Whenever a player flips a coin and it lands on heads one of the following will happen:
+ 1. They will receive a Containment Engineer/Facility Manager keycard.
  2. They will recevive a 'medical kit' consisting of a medkit and painkillers.
- 3. They will be teleported to the escape zone doors.  
+ 3. They will be teleported to the escape zone doors.
  4. They will be healed by 25 health.
- 5. Their hp will be increased by 10%.
+ 5. Their HP will be increased by 10%.
  6. They will get an SCP-268.
  7. They will receive a random good effect for 5 seconds.
- 8. They will get a Logicer with 1 ammo.  
- 9. They will receive an SCP-2176. 
- 10. They will receive a pink candy. 
- 11. They will receive a revolver with the worst attachments possible. 
+ 8. They will get a Logicer with 1 ammo.
+ 9. They will receive an SCP-2176.
+ 10. They will receive a pink candy.
+ 11. They will receive a revolver with the worst attachments possible.
  12. They will get an empty micro hid.
  13. MTF/CI will respawn immediatly.
- 14. Their scale will be set to 1.3/0.5/1.3.
+ 14. They will become SMALL.
  15. They will receive a random item.
+ 16. They will become HUGE.
 
-- Whenever someone flips a coin and it lands on tails one of the following will happen:  
- 1. Their hp will be reduced by 30%.  
- 2. They will be teleported to Class D cells.  
- 3. They will get a random bad effect for 5 seconds.  
- 4. The Alpha Warhead will be enabled or disabled depending on it's current state.  
- 5. Lights all across the map will be turned off for 10 seconds.  
+- Whenever someone flips a coin and it lands on tails one of the following will happen:
+ 1. Their hp will be reduced by 30%.
+ 2. They will be teleported to Class D cells.
+ 3. They will get a random bad effect for 5 seconds.
+ 4. The Alpha Warhead will be enabled or disabled depending on it's current state.
+ 5. Lights all across the map will be turned off for 10 seconds.
  6. A live grenade will appear on their head.
  7. A live flash grenade will spawn on their head.
  8. They will be teleported to an SCP if there are any alive, otherwise they'll lose 15 hp.
@@ -46,9 +47,13 @@ SCP:SL plugin that adds a Risk-Reward mechanic to the in-game coin. Whenever you
  21. Their inventory will be swapped with another player's inventory.
  22. They will be teleported to a random room.
  23. They will be handcuffed and lose their items.
- 24. They can become WIDE.
- 25. They can become HUGE.
- 26. They can spawn NPC that follows them with coin in hand (with small twist).
+ 24. They will become WIDE.
+ 25. They will spawn Bouncy Ball!
+ 26. They will spawn NPC that follows them with coin in hand (with small twist).
+ 27. They will make everyone in room WIDE.
+ 28. They will make everyone in room a Zombie (SCP-049-2).
+ 29. They will make everyone in room a MTF Operative.
+ 30. They will make everyone in room a Chaos Insurgent.
 
 - The plugin will prevent the spawns of a specified amount of coins around the map.
 - The plugin will replace a specified amount of the chosen item (by default SCP-500) with a coin in the SCP pedestals.
@@ -57,7 +62,7 @@ SCP:SL plugin that adds a Risk-Reward mechanic to the in-game coin. Whenever you
 # Commands
 
 - GetSerial - gets the serial number of an item held by you or another player.
-- CoinUses - gets or sets the number of uses a specific coin has. Example usage: `coinuses get player 5`, `coin uses set player 4`, `coinuses set serial 10` 
+- CoinUses - gets or sets the number of uses a specific coin has. Example usage: `coinuses get player 5`, `coin uses set player 4`, `coinuses set serial 10`
 
 # Permissions
 
@@ -74,6 +79,8 @@ better_cf:
   debug: false
   # The amount of base game spawned coins that should be removed. Default: 4
   default_coins_amount: 4
+  # The amount of spawned coins that should be created from SCP-2176. Default: 12
+  scp2176_coins_amount: 12
   # The ItemType of the item to be replaced with a coin and the amount to be replaced, the item is supposed to be something found in SCP pedestals.
   item_to_replace:
     SCP500: 2
@@ -143,6 +150,8 @@ better_cf:
   empty_hid_chance: 5
   force_respawn_chance: 15
   size_change_chance: 20
+  random_item_chance: 35
+  size_change_huge_chance: 20
   # The chance of these bad effects happening. It's a proportional chance not a % chance.
   hp_reduction_chance: 20
   tp_to_class_d_cells_chance: 5
@@ -169,7 +178,10 @@ better_cf:
   handcuff_chance: 10
   random_teleport_chance: 15
   size_change_wide_chance: 10
-  size_change_huge_chance: 20
   bouncy_balls_chance: 20
   npc_chance: 30
+  whole_room_wide_chance: 10
+  whole_room_zombie_chance: 20
+  whole_room_mtf_chance: 10
+  whole_room_chaos_chance: 10
 ```
