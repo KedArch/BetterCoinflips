@@ -7,6 +7,7 @@ using BetterCoinflips.Types;
 using Exiled.API.Features.Pickups;
 using Exiled.Events.EventArgs.Map;
 using Exiled.Events.EventArgs.Player;
+using Exiled.Events.EventArgs.Scp914;
 using UnityEngine;
 
 namespace BetterCoinflips
@@ -16,7 +17,7 @@ namespace BetterCoinflips
         private static Config Config => Plugin.Instance.Config;
         private static Configs.Translations Translations => Plugin.Instance.Translation;
         private readonly System.Random _rd = new();
-        
+
         // ReSharper disable once FieldCanBeMadeReadOnly.Global
         public static Dictionary<ushort, int> CoinUses = new();
 
@@ -106,10 +107,10 @@ namespace BetterCoinflips
                 Log.Debug($"{ev.Player.Nickname} tried to throw a coin on cooldown.");
                 return;
             }
-            
+
             //set cooldown for player
             _cooldownDict[ev.Player.RawUserId] = DateTime.UtcNow;
-            
+
             //check if coin has registered uses
             if (!CoinUses.ContainsKey(ev.Player.CurrentItem.Serial))
             {
@@ -129,7 +130,7 @@ namespace BetterCoinflips
                     return;
                 }
             }
-            
+
             //decrement coin uses
             CoinUses[ev.Player.CurrentItem.Serial]--;
             Log.Debug($"Uses Left: {CoinUses[ev.Player.CurrentItem.Serial]}");
@@ -141,7 +142,7 @@ namespace BetterCoinflips
             }
 
             Log.Debug($"Is tails: {ev.IsTails}");
-            
+
             if (!ev.IsTails)
             {
                 int totalChance = _goodEffectChances.Values.Sum();
@@ -160,7 +161,7 @@ namespace BetterCoinflips
 
                     randomNum -= kvp.Value;
                 }
-                
+
                 Log.Debug($"headsEvent = {headsEvent}");
 
                 //use headsevent to choose the effect and execute it
@@ -186,7 +187,7 @@ namespace BetterCoinflips
 
                     randomNum -= kvp.Value;
                 }
-                
+
                 Log.Debug($"tailsEvent = {tailsEvent}");
 
                 //use tailsevent to choose the effect and execute it
@@ -210,7 +211,7 @@ namespace BetterCoinflips
                 SendBroadcast(ev.Player, message, true, ev.IsTails);
             }
         }
-        
+
         //removing default coins
         public void OnSpawningItem(SpawningItemEventArgs ev)
         {
@@ -238,6 +239,45 @@ namespace BetterCoinflips
                 ev.IsAllowed = false;
                 Pickup.CreateAndSpawn(ItemType.Coin, ev.Pickup.Position, new Quaternion());
                 Config.ItemToReplace[Config.ItemToReplace.ElementAt(0).Key]--;
+            }
+        }
+
+        public void OnUpgradingPickup(UpgradingPickupEventArgs ev)
+        {
+            if (ev.Pickup.Type != ItemType.SCP2176 ||
+                ev.KnobSetting != Scp914.Scp914KnobSetting.OneToOne)
+                return;
+
+            ev.IsAllowed = false;
+
+            Vector3 position = ev.OutputPosition;
+            ev.Pickup.Destroy();
+
+            for (int i = 0; i < Config.Scp2176CoinsAmount; i++)
+                Pickup.CreateAndSpawn(ItemType.Coin, position, Quaternion.identity);
+        }
+
+        public void OnUpgradingInventoryItem(UpgradingInventoryItemEventArgs ev)
+        {
+            if (ev.Item.Type != ItemType.SCP2176 ||
+                ev.KnobSetting != Scp914.Scp914KnobSetting.OneToOne)
+            {
+                return;
+            }
+
+            ev.IsAllowed = false;
+
+            Exiled.API.Features.Player player = ev.Player;
+            Vector3 position = player.Position;
+            position += new Vector3(0, 0, 10);
+            ev.Item.Destroy();
+
+            for (int i = 0; i < Config.Scp2176CoinsAmount; i++)
+            {
+                if (player.AddItem(ItemType.Coin) == null)
+                {
+                    Pickup.CreateAndSpawn(ItemType.Coin, position, Quaternion.identity);
+                }
             }
         }
     }

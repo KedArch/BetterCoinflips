@@ -17,6 +17,9 @@ namespace BetterCoinflips.Configs
         [Description("The amount of base game spawned coins that should be removed. Default: 4")]
         public int DefaultCoinsAmount { get; set; } = 4;
 
+        [Description("The amount of spawned coins that should be created from SCP-2176. Default: 6")]
+        public int Scp2176CoinsAmount { get; set; } = 12;
+
         [Description("The ItemType of the item to be replaced with a coin and the amount to be replaced, the item is supposed to be something found in SCP pedestals.")]
         public Dictionary<ItemType, int> ItemToReplace { get; set; } = new()
         {
@@ -26,7 +29,7 @@ namespace BetterCoinflips.Configs
         [Description("The boundaries of the random range of throws each coin will have before it breaks. The upper bound is exclusive.")]
         public List<int> MinMaxDefaultCoins { get; set; } = new()
         {
-            1, 
+            1,
             4
         };
 
@@ -258,8 +261,8 @@ namespace BetterCoinflips.Configs
         public int BouncyBallsChance { get; set; } = 20;
         public int NpcChance { get; set; } = 30;
         public int WholeRoomWideChance { get; set; } = 10;
-        public int WholeRoomZombieChance { get; set; } = 30;
-        public int WholeRoomMtfChance { get; set; } = 25;
-        public int WholeRoomChaosChance { get; set; } = 20;
+        public int WholeRoomZombieChance { get; set; } = 20;
+        public int WholeRoomMtfChance { get; set; } = 10;
+        public int WholeRoomChaosChance { get; set; } = 10;
     }
 }

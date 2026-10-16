@@ -5,6 +5,7 @@ using BetterCoinflips.Configs;
 using Map = Exiled.Events.Handlers.Map;
 using PlayerAPI = Exiled.API.Features.Player;
 using Player = Exiled.Events.Handlers.Player;
+using SCP914 = Exiled.Events.Handlers.Scp914;
 
 namespace BetterCoinflips
 {
@@ -44,6 +45,8 @@ namespace BetterCoinflips
             Player.FlippingCoin += _eventHandler.OnCoinFlip;
             Map.SpawningItem += _eventHandler.OnSpawningItem;
             Map.FillingLocker += _eventHandler.OnFillingLocker;
+            SCP914.UpgradingPickup += _eventHandler.OnUpgradingPickup;
+            SCP914.UpgradingInventoryItem += _eventHandler.OnUpgradingInventoryItem;
         }
 
         private void UnRegisterEvents()
@@ -51,6 +54,8 @@ namespace BetterCoinflips
             Player.FlippingCoin -= _eventHandler.OnCoinFlip;
             Map.SpawningItem -= _eventHandler.OnSpawningItem;
             Map.FillingLocker -= _eventHandler.OnFillingLocker;
+            SCP914.UpgradingPickup -= _eventHandler.OnUpgradingPickup;
+            SCP914.UpgradingInventoryItem -= _eventHandler.OnUpgradingInventoryItem;
             _eventHandler = null;
         }
     }
